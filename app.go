@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/websocket"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	// "github.com/pkg/profile"
 	"log"
 	"net"
@@ -35,6 +36,7 @@ func main() {
 	http.HandleFunc("/", whoamI)
 	http.HandleFunc("/api", api)
 	http.HandleFunc("/health", healthHandler)
+	http.Handle("/metrics", promhttp.Handler())
 	fmt.Println("Starting up on port " + port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
